@@ -22,8 +22,13 @@ function Layout({ children }) {
     <div style={{ fontFamily: "Arial", padding: 18, maxWidth: 1100, margin: "0 auto" }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
-          <h2 style={{ margin: 0 }}>Electronic Sterilization Tracking System</h2>
-          <div style={{ opacity: 0.8 }}>International Sterilization System — Gulf Region (Phase 1)</div>
+          <h1 style={{ margin: 0, fontSize: 26, letterSpacing: 0.3 }}>
+                                         Electronic Sterilization Tracking System
+                                          </h1>
+                             <div style={{ opacity: 0.85, fontSize: 14, marginTop: 2 }}>
+                                      International Sterilization System — Gulf Region (Phase 1)
+                             </div>
+
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
           <span style={{ opacity: 0.8 }}>
@@ -33,7 +38,16 @@ function Layout({ children }) {
         </div>
       </header>
 
-      <nav style={{ marginTop: 14, display: "flex", gap: 10 }}>
+     <nav
+  style={{
+    marginTop: 18,
+    display: "flex",
+    gap: 16,
+    paddingBottom: 12,
+    borderBottom: "1px solid #eee"
+  }}
+>
+
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/cycles">Sterilization Cycles</Link>
         {canSeeOrganizations && <Link to="/organizations">Organizations</Link>}
