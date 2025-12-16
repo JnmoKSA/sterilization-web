@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Cycles from "./pages/Cycles";
+import Organizations from "./pages/Organizations";
 
 function Protected({ children }) {
   const { token } = useAuth();
@@ -12,6 +13,8 @@ function Protected({ children }) {
 
 function Layout({ children }) {
   const { user, logout } = useAuth();
+  const canSeeOrganizations = user?.role === "admin" || user?.role === "manager";
+
   return (
     <div style={{ fontFamily: "Arial", padding: 18, maxWidth: 1100, margin: "0 auto" }}>
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -20,7 +23,9 @@ function Layout({ children }) {
           <div style={{ opacity: 0.8 }}>International Sterilization System — Gulf Region (Phase 1)</div>
         </div>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <span style={{ opacity: 0.8 }}>{user?.username} ({user?.role})</span>
+          <span style={{ opacity: 0.8 }}>
+            {user?.username} ({user?.role})
+          </span>
           <button onClick={logout}>Sign out</button>
         </div>
       </header>
@@ -28,6 +33,7 @@ function Layout({ children }) {
       <nav style={{ marginTop: 14, display: "flex", gap: 10 }}>
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/cycles">Sterilization Cycles</Link>
+        {canSeeOrganizations && <Link to="/organizations">Organizations</Link>}
       </nav>
 
       <main style={{ marginTop: 16 }}>{children}</main>
@@ -50,15 +56,31 @@ export default function App() {
             path="/dashboard"
             element={
               <Protected>
-                <Layout><Dashboard /></Layout>
+                <Layout>
+                  <Dashboard />
+                </Layout>
               </Protected>
             }
           />
+
           <Route
             path="/cycles"
             element={
               <Protected>
-                <Layout><Cycles /></Layout>
+                <Layout>
+                  <Cycles />
+                </Layout>
+              </Protected>
+            }
+          />
+
+          <Route
+            path="/organizations"
+            element={
+              <Protected>
+                <Layout>
+                  <Organizations />
+                </Layout>
               </Protected>
             }
           />
