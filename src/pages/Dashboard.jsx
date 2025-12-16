@@ -1,42 +1,45 @@
 import "./../styles/dashboard.css";
+import { useLang } from "../i18n/LangContext";
 
 export default function Dashboard() {
+  const { isAR, tr } = useLang();
+
   // مؤقتًا بيانات ثابتة مثل الصورة، لاحقًا نربطها بالـ API
   const kpis = [
-    { label: "الدورات الفاشلة", value: 0, hint: "3%-", icon: "!" },
-    { label: "معدل النجاح", value: "0.0%", hint: "2.1%+", icon: "↗" },
-    { label: "الأدوات المعقمة", value: 0, hint: "8%+", icon: "∿" },
-    { label: "الأدوات المستلمة", value: 5, hint: "12%+", icon: "□" },
+    { label: tr.kpiFailed, value: 0, hint: "3%-", icon: "!" },
+    { label: tr.kpiSuccess, value: "0.0%", hint: "2.1%+", icon: "↗" },
+    { label: tr.kpiSterilized, value: 0, hint: "8%+", icon: "∿" },
+    { label: tr.kpiReceived, value: 5, hint: "12%+", icon: "□" },
   ];
 
   const steam1 = 0;
   const steam2 = 0;
 
   return (
-    <div className="page" dir="rtl">
+    <div className="page" dir={isAR ? "rtl" : "ltr"}>
       <aside className="sidebar">
         <div className="brand">
           <div className="brandLogo">S</div>
           <div>
-            <div className="brandTitle">نظام التعقيم</div>
-            <div style={{ opacity: 0.7, fontSize: 12 }}>الطبي</div>
+            <div className="brandTitle">{isAR ? "نظام التعقيم" : "Sterilization System"}</div>
+            <div style={{ opacity: 0.7, fontSize: 12 }}>{isAR ? "الطبي" : "Medical"}</div>
           </div>
         </div>
 
-        <div className="navItem navItemActive">لوحة التحكم</div>
-        <div className="navItem">استلام الأدوات</div>
-        <div className="navItem">دورات التعقيم</div>
-        <div className="navItem">التقارير</div>
-        <div className="navItem">المستخدمين</div>
-        <div className="navItem">المنشآت</div>
-        <div className="navItem">الإعدادات</div>
+        <div className="navItem navItemActive">{tr.dashboard}</div>
+        <div className="navItem">{tr.intake}</div>
+        <div className="navItem">{tr.cycles}</div>
+        <div className="navItem">{tr.reports}</div>
+        <div className="navItem">{tr.users}</div>
+        <div className="navItem">{tr.orgs}</div>
+        <div className="navItem">{tr.settings}</div>
       </aside>
 
       <main className="content">
         <div className="topTitle">
           <div>
-            <h1 className="h1">لوحة التحكم</h1>
-            <div className="sub">نظرة عامة على أداء نظام التعقيم</div>
+            <h1 className="h1">{tr.dashboard}</h1>
+            <div className="sub">{tr.overview}</div>
           </div>
         </div>
 
@@ -68,23 +71,26 @@ export default function Dashboard() {
         <section className="row2">
           <div className="card">
             <div className="sectionTitle">
-              <h3>الأدوات الأكثر استخدامًا</h3>
-              <div style={{ opacity: 0.7, fontSize: 12 }}>أكثر 5 أدوات من حيث عدد مرات التعقيم</div>
+              <h3>{tr.topTools}</h3>
+              <div style={{ opacity: 0.7, fontSize: 12 }}>{tr.topToolsSub}</div>
             </div>
+
             <div style={{ height: 220, display: "grid", placeItems: "center", opacity: 0.6 }}>
-              لا توجد بيانات متاحة
+              {tr.noData}
             </div>
           </div>
 
           <div className="card">
             <div className="sectionTitle">
-              <h3>أداء الأجهزة</h3>
-              <div style={{ opacity: 0.7, fontSize: 12 }}>عدد الدورات الناجحة لكل جهاز</div>
+              <h3>{tr.devicePerf}</h3>
+              <div style={{ opacity: 0.7, fontSize: 12 }}>{tr.devicePerfSub}</div>
             </div>
 
             <div className="progressWrap">
               <div className="progressRow">
-                <div style={{ minWidth: 70, opacity: 0.8 }}>{steam1} دورة</div>
+                <div style={{ minWidth: 70, opacity: 0.8 }}>
+                  {steam1} {isAR ? "دورة" : "cycles"}
+                </div>
                 <div className="bar">
                   <div className="barFill" style={{ width: `${Math.min(100, steam1)}%` }} />
                 </div>
@@ -92,7 +98,9 @@ export default function Dashboard() {
               </div>
 
               <div className="progressRow">
-                <div style={{ minWidth: 70, opacity: 0.8 }}>{steam2} دورة</div>
+                <div style={{ minWidth: 70, opacity: 0.8 }}>
+                  {steam2} {isAR ? "دورة" : "cycles"}
+                </div>
                 <div className="bar">
                   <div className="barFill barFill2" style={{ width: `${Math.min(100, steam2)}%` }} />
                 </div>
@@ -104,14 +112,14 @@ export default function Dashboard() {
 
         <section className="card">
           <div className="sectionTitle">
-            <h3>إجراءات سريعة</h3>
-            <div style={{ opacity: 0.7, fontSize: 12 }}>الوصول السريع للوظائف الشائعة</div>
+            <h3>{tr.quick}</h3>
+            <div style={{ opacity: 0.7, fontSize: 12 }}>{tr.quickSub}</div>
           </div>
 
           <div className="quick">
-            <button className="quickBtn">بدء دورة تعقيم</button>
-            <button className="quickBtn">استلام أدوات جديدة</button>
-            <button className="quickBtn quickBtnPrimary">تصدير التقرير اليومي</button>
+            <button className="quickBtn">{tr.startCycle}</button>
+            <button className="quickBtn">{tr.newIntake}</button>
+            <button className="quickBtn quickBtnPrimary">{tr.exportDaily}</button>
           </div>
         </section>
       </main>
