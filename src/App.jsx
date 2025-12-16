@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Cycles from "./pages/Cycles";
 import Organizations from "./pages/Organizations";
+import Users from "./pages/Users";
 
 function Protected({ children }) {
   const { token } = useAuth();
@@ -13,7 +14,9 @@ function Protected({ children }) {
 
 function Layout({ children }) {
   const { user, logout } = useAuth();
+
   const canSeeOrganizations = user?.role === "admin" || user?.role === "manager";
+  const canSeeUsers = user?.role === "admin" || user?.role === "manager";
 
   return (
     <div style={{ fontFamily: "Arial", padding: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -34,6 +37,7 @@ function Layout({ children }) {
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/cycles">Sterilization Cycles</Link>
         {canSeeOrganizations && <Link to="/organizations">Organizations</Link>}
+        {canSeeUsers && <Link to="/users">Users</Link>}
       </nav>
 
       <main style={{ marginTop: 16 }}>{children}</main>
@@ -80,6 +84,17 @@ export default function App() {
               <Protected>
                 <Layout>
                   <Organizations />
+                </Layout>
+              </Protected>
+            }
+          />
+
+          <Route
+            path="/users"
+            element={
+              <Protected>
+                <Layout>
+                  <Users />
                 </Layout>
               </Protected>
             }
